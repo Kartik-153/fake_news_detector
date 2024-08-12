@@ -20,7 +20,7 @@ transformers==3.5.0
 shap==0.37.0
 sklearn==0.0
 uvicorn==0.13.3
-uvloop==0.14.0
+uvloop==0.14.0 ##
 vadersentiment==3.3.2
 watchgod==0.6
 websockets==8.1

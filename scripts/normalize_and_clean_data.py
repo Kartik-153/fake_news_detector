@@ -5,6 +5,10 @@ import os
 from typing import Dict
 from typing import List
 
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+
 from fake_news.utils.features import normalize_and_clean
 
 
