@@ -1,16 +1,10 @@
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
-
 import json
 import logging
 import os
 import pickle
 from copy import deepcopy
 from functools import partial
-from typing import Dict
-from typing import List
-from typing import Optional
+from typing import Dict, List, Optional
 
 import numpy as np
 from pydantic import BaseModel
@@ -19,6 +13,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import FeatureUnion
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import FunctionTransformer
+
 
 from fake_news.utils.constants import CANONICAL_SPEAKER_TITLES
 from fake_news.utils.constants import CANONICAL_STATE
@@ -31,9 +26,8 @@ logging.basicConfig(
 )
 LOGGER = logging.getLogger(__name__)
 
-
 class Datapoint(BaseModel):
-    id: Optional[str]
+    id: Optional[int]
     statement_json: Optional[str]
     label: Optional[bool]
     statement: str
@@ -144,13 +138,40 @@ def compute_bin_idx(val: float, bins: List[float]) -> int:
 
 
 # NOTE: Making sure that all normalization operations preserve immutability of inputs
+# def normalize_labels(datapoints: List[Dict]) -> List[Dict]:
+#     normalized_datapoints = []
+#     for datapoint in datapoints:
+#         # First do simple cleaning
+#         normalized_datapoint = deepcopy(datapoint)
+#         normalized_datapoint["label"] = SIX_WAY_LABEL_TO_BINARY[datapoint["label".lower().strip()]]
+#         normalized_datapoints.append(normalized_datapoint)
+#     return normalized_datapoints
+
 def normalize_labels(datapoints: List[Dict]) -> List[Dict]:
     normalized_datapoints = []
     for datapoint in datapoints:
         # First do simple cleaning
         normalized_datapoint = deepcopy(datapoint)
-        normalized_datapoint["label"] = SIX_WAY_LABEL_TO_BINARY[datapoint["label".lower().strip()]]
+        
+        # Extract the label and ensure it is not None
+        label = datapoint.get("label")
+    
+        if label is None:
+            print(f"Warning: Missing label in datapoint {datapoint}")
+            continue  # Skip this datapoint or handle it as needed
+        
+        # Normalize the label string
+        normalized_label = label.lower().strip()
+        
+        # Check if the label exists in the dictionary
+        if normalized_label not in SIX_WAY_LABEL_TO_BINARY:
+            print(f"Warning: Unrecognized label '{normalized_label}' in datapoint {datapoint}")
+            continue  # Skip this datapoint or handle it as needed
+        
+        # Assign the normalized label
+        normalized_datapoint["label"] = SIX_WAY_LABEL_TO_BINARY[normalized_label]
         normalized_datapoints.append(normalized_datapoint)
+    
     return normalized_datapoints
 
 

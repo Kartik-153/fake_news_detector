@@ -2,27 +2,21 @@ import argparse
 import csv
 import json
 import os
-from typing import Dict
-from typing import List
-
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+from typing import Dict, List
 
 from fake_news.utils.features import normalize_and_clean
 
-
 def read_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--train-data-path", type=str)
-    parser.add_argument("--val-data-path", type=str)
-    parser.add_argument("--test-data-path", type=str)
-    parser.add_argument("--output-dir", type=str)
+    parser.add_argument("--train-data-path", type=str, required=True)
+    parser.add_argument("--val-data-path", type=str, required=True)
+    parser.add_argument("--test-data-path", type=str, required=True)
+    parser.add_argument("--output-dir", type=str, required=True)
     return parser.parse_args()
 
 
 def read_datapoints(datapath: str) -> List[Dict]:
-    with open(datapath) as f:
+    with open(datapath, mode='r', encoding='utf-8', errors='replace') as f:
         reader = csv.DictReader(f, delimiter="\t", fieldnames=[
             "id",
             "statement_json",
@@ -43,6 +37,7 @@ def read_datapoints(datapath: str) -> List[Dict]:
         ])
         return [row for row in reader]
 
+# print(read_datapoints("D:\\fake\\fake-news\\data\\raw\\train2.tsv"))
 
 if __name__ == "__main__":
     args = read_args()
@@ -51,7 +46,7 @@ if __name__ == "__main__":
     test_datapoints = read_datapoints(args.test_data_path)
     
     train_datapoints = normalize_and_clean(train_datapoints)
-    val_datapoints = normalize_and_clean(val_datapoints)
+    val_datapoints = normalize_and_clean(val_datapoints) 
     test_datapoints = normalize_and_clean(test_datapoints)
     
     with open(os.path.join(args.output_dir, "cleaned_train_data.json"), "w") as f:

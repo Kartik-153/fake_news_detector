@@ -1,3 +1,8 @@
+
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+
 # Mapping from speaker title variants seen in data to their canonical form
 CANONICAL_SPEAKER_TITLES = {
     "u.s. house of representative": "u.s. house of representatives",
