@@ -27,7 +27,7 @@ logging.basicConfig(
 LOGGER = logging.getLogger(__name__)
 
 class Datapoint(BaseModel):
-    id: Optional[int]
+    id: Optional[str]
     statement_json: Optional[str]
     label: Optional[bool]
     statement: str
@@ -147,6 +147,33 @@ def compute_bin_idx(val: float, bins: List[float]) -> int:
 #         normalized_datapoints.append(normalized_datapoint)
 #     return normalized_datapoints
 
+# def normalize_labels(datapoints: List[Dict]) -> List[Dict]:
+#     normalized_datapoints = []
+#     for datapoint in datapoints:
+#         # First do simple cleaning
+#         normalized_datapoint = deepcopy(datapoint)
+        
+#         # Extract the label and ensure it is not None
+#         label = datapoint.get("label")
+    
+#         if label is None:
+#             print(f"Warning: Missing label in datapoint {datapoint}")
+#             continue  # Skip this datapoint or handle it as needed
+        
+#         # Normalize the label string
+#         normalized_label = label.lower().strip()
+        
+#         # Check if the label exists in the dictionary
+#         if normalized_label not in SIX_WAY_LABEL_TO_BINARY:
+#             print(f"Warning: Unrecognized label '{normalized_label}' in datapoint {datapoint}")
+#             continue  # Skip this datapoint or handle it as needed
+        
+#         # Assign the normalized label
+#         normalized_datapoint["label"] = SIX_WAY_LABEL_TO_BINARY[normalized_label]
+#         normalized_datapoints.append(normalized_datapoint)
+    
+#     return normalized_datapoints
+
 def normalize_labels(datapoints: List[Dict]) -> List[Dict]:
     normalized_datapoints = []
     for datapoint in datapoints:
@@ -159,6 +186,10 @@ def normalize_labels(datapoints: List[Dict]) -> List[Dict]:
         if label is None:
             print(f"Warning: Missing label in datapoint {datapoint}")
             continue  # Skip this datapoint or handle it as needed
+        
+        # Ensure label is a string
+        if not isinstance(label, str):
+            label = str(label)  # Convert to string if it's not
         
         # Normalize the label string
         normalized_label = label.lower().strip()

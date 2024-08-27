@@ -3,6 +3,7 @@ import csv
 import json
 import os
 from typing import Dict, List
+import pandas as pd
 
 from fake_news.utils.features import normalize_and_clean
 
@@ -15,27 +16,33 @@ def read_args():
     return parser.parse_args()
 
 
+
 def read_datapoints(datapath: str) -> List[Dict]:
-    with open(datapath, mode='r', encoding='utf-8', errors='replace') as f:
-        reader = csv.DictReader(f, delimiter="\t", fieldnames=[
-            "id",
-            "statement_json",
-            "label",
-            "statement",
-            "subject",
-            "speaker",
-            "speaker_title",
-            "state_info",
-            "party_affiliation",
-            "barely_true_count",
-            "false_count",
-            "half_true_count",
-            "mostly_true_count",
-            "pants_fire_count",
-            "context",
-            "justification"
-        ])
-        return [row for row in reader]
+    # with open(datapath, mode='r', encoding='utf-8', errors='replace') as f:
+    #     reader = csv.DictReader(f, delimiter="\t", fieldnames=[
+    #         "id",
+    #         "statement_json",
+    #         "label",
+    #         "statement",
+    #         "subject",
+    #         "speaker",
+    #         "speaker_title",
+    #         "state_info",
+    #         "party_affiliation",
+    #         "barely_true_count",
+    #         "false_count",
+    #         "half_true_count",
+    #         "mostly_true_count",
+    #         "pants_fire_count",
+    #         "context",
+    #         "justification"
+    #     ])
+    #     return [row for row in reader]
+    df = pd.read_csv(datapath, sep="\t", names=["id", "statement_json", "label", "statement", "subject", "speaker", "speaker_title", "state_info", "party_affiliation", "barely_true_count", "false_count", "half_true_count", "mostly_true_count", "pants_fire_count", "context", "justification"])
+    df.dropna(how='any')
+    result_dict = df.to_dict('records')
+    return result_dict
+
 
 # print(read_datapoints("D:\\fake\\fake-news\\data\\raw\\train2.tsv"))
 
