@@ -116,7 +116,7 @@ class TreeFeaturizer(object):
         all_feature_names = []
         for name, pipeline in self.combined_featurizer.transformer_list:
             final_pipe_name, final_pipe_transformer = pipeline.steps[-1]
-            all_feature_names.extend(final_pipe_transformer.get_feature_names())
+            all_feature_names.extend(final_pipe_transformer.get_feature_names_out())
         return all_feature_names
     
     def fit(self, datapoints: List[Datapoint]) -> None:
