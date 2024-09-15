@@ -231,15 +231,32 @@ def normalize_and_clean_party_affiliations(datapoints: List[Dict]) -> List[Dict]
     return normalized_datapoints
 
 
+# def normalize_and_clean_state_info(datapoints: List[Dict]) -> List[Dict]:
+#     normalized_datapoints = []
+#     for datapoint in datapoints:
+#         normalized_datapoint = deepcopy(datapoint)
+#         old_state_info = normalized_datapoint["state_info"]
+#         old_state_info = old_state_info.lower().strip().replace("-", " ")
+#         if old_state_info in CANONICAL_STATE:
+#             old_state_info = CANONICAL_STATE[old_state_info]
+#         normalized_datapoint["state_info"] = old_state_info
+#         normalized_datapoints.append(normalized_datapoint)
+#     return normalized_datapoints
+
 def normalize_and_clean_state_info(datapoints: List[Dict]) -> List[Dict]:
     normalized_datapoints = []
     for datapoint in datapoints:
         normalized_datapoint = deepcopy(datapoint)
-        old_state_info = normalized_datapoint["state_info"]
-        old_state_info = old_state_info.lower().strip().replace("-", " ")
-        if old_state_info in CANONICAL_STATE:
-            old_state_info = CANONICAL_STATE[old_state_info]
-        normalized_datapoint["state_info"] = old_state_info
+        old_state_info = normalized_datapoint.get("state_info", None)
+        
+        if old_state_info is not None:
+            old_state_info = old_state_info.lower().strip().replace("-", " ")
+            if old_state_info in CANONICAL_STATE:
+                old_state_info = CANONICAL_STATE[old_state_info]
+            normalized_datapoint["state_info"] = old_state_info
+        else:
+            normalized_datapoint["state_info"] = None  # or handle it with a default value if necessary
+        
         normalized_datapoints.append(normalized_datapoint)
     return normalized_datapoints
 

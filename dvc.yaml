@@ -11,9 +11,9 @@ stages:
       --val-data-path data/raw/val2.tsv --test-data-path data/raw/test2.tsv --output-dir
       data/processed
     deps:
-    - data/raw/test3.tsv
-    - data/raw/train3.tsv
-    - data/raw/val3.tsv
+    - data/raw/test2.tsv
+    - data/raw/train2.tsv
+    - data/raw/val2.tsv
     - scripts/normalize_and_clean_data.py
     outs:
     - data/processed/cleaned_test_data.json
