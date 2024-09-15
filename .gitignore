@@ -4,3 +4,4 @@
 *.idea
 **/mlruns/*
 model_checkpoints/*
+.

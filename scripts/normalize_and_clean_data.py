@@ -18,30 +18,30 @@ def read_args():
 
 
 def read_datapoints(datapath: str) -> List[Dict]:
-    # with open(datapath, mode='r', encoding='utf-8', errors='replace') as f:
-    #     reader = csv.DictReader(f, delimiter="\t", fieldnames=[
-    #         "id",
-    #         "statement_json",
-    #         "label",
-    #         "statement",
-    #         "subject",
-    #         "speaker",
-    #         "speaker_title",
-    #         "state_info",
-    #         "party_affiliation",
-    #         "barely_true_count",
-    #         "false_count",
-    #         "half_true_count",
-    #         "mostly_true_count",
-    #         "pants_fire_count",
-    #         "context",
-    #         "justification"
-    #     ])
-    #     return [row for row in reader]
-    df = pd.read_csv(datapath, sep="\t", names=["id", "statement_json", "label", "statement", "subject", "speaker", "speaker_title", "state_info", "party_affiliation", "barely_true_count", "false_count", "half_true_count", "mostly_true_count", "pants_fire_count", "context", "justification"])
-    df.dropna(how='any')
-    result_dict = df.to_dict('records')
-    return result_dict
+    with open(datapath, mode='r', encoding='utf-8', errors='replace') as f:
+        reader = csv.DictReader(f, delimiter="\t", fieldnames=[
+            "id",
+            "statement_json",
+            "label",
+            "statement",
+            "subject",
+            "speaker",
+            "speaker_title",
+            "state_info",
+            "party_affiliation",
+            "barely_true_count",
+            "false_count",
+            "half_true_count",
+            "mostly_true_count",
+            "pants_fire_count",
+            "context",
+            "justification"
+        ])
+        return [row for row in reader]
+    # df = pd.read_csv(datapath, sep="\t", names=["id", "statement_json", "label", "statement", "subject", "speaker", "speaker_title", "state_info", "party_affiliation", "barely_true_count", "false_count", "half_true_count", "mostly_true_count", "pants_fire_count", "context", "justification"])
+    # df.dropna(how='any')
+    # result_dict = df.to_dict('records')
+    # return result_dict
 
 
 # print(read_datapoints("D:\\fake\\fake-news\\data\\raw\\train2.tsv"))
@@ -53,7 +53,7 @@ if __name__ == "__main__":
     test_datapoints = read_datapoints(args.test_data_path)
     
     train_datapoints = normalize_and_clean(train_datapoints)
-    val_datapoints = normalize_and_clean(val_datapoints) 
+    val_datapoints = normalize_and_clean(val_datapoints)
     test_datapoints = normalize_and_clean(test_datapoints)
     
     with open(os.path.join(args.output_dir, "cleaned_train_data.json"), "w") as f:
