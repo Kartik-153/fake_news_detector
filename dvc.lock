@@ -1,0 +1,49 @@
+schema: '2.0'
+stages:
+  normalize-and-clean-data:
+    cmd: python scripts/normalize_and_clean_data.py --train-data-path data/raw/train2.tsv
+      --val-data-path data/raw/val2.tsv --test-data-path data/raw/test2.tsv --output-dir
+      data/processed
+    deps:
+    - path: data/raw/test2.tsv
+      hash: md5
+      md5: f375cac01768ff779f16a12937165074
+      size: 869878
+    - path: data/raw/train2.tsv
+      hash: md5
+      md5: 7bb691157fb2dc36103730bd7042ab7a
+      size: 6967408
+    - path: data/raw/val2.tsv
+      hash: md5
+      md5: 9ca5a3da8145dbc0f2c3e6b176639610
+      size: 863858
+    - path: scripts/normalize_and_clean_data.py
+      hash: md5
+      md5: 0049800630bc3b60a496664de9a8bec7
+      size: 2508
+    outs:
+    - path: data/processed/cleaned_test_data.json
+      hash: md5
+      md5: 0fda6d29a05df78ac58da8bef93ffa61
+      size: 1233600
+    - path: data/processed/cleaned_train_data.json
+      hash: md5
+      md5: 9d3f36db3bd34180155cc23e523212be
+      size: 9802223
+    - path: data/processed/cleaned_val_data.json
+      hash: md5
+      md5: e2787d26655ced4af6c97cace37d688d
+      size: 1232052
+  compute-credit-bins:
+    cmd: python scripts/compute_credit_bins.py --train-data-path data/processed/cleaned_train_data.json
+      --output-path data/processed/optimal_credit_bins.json
+    deps:
+    - path: data/processed/cleaned_train_data.json
+      hash: md5
+      md5: 9d3f36db3bd34180155cc23e523212be
+      size: 9802223
+    outs:
+    - path: data/processed/optimal_credit_bins.json
+      hash: md5
+      md5: b9c23dc2b9b202e57e0beb8743b06e1c
+      size: 507

@@ -212,7 +212,7 @@ def normalize_and_clean_speaker_title(datapoints: List[Dict]) -> List[Dict]:
         # First do simple cleaning
         normalized_datapoint = deepcopy(datapoint)
         old_speaker_title = normalized_datapoint["speaker_title"]
-        old_speaker_title = old_speaker_title.lower().strip().replace("-", " ")
+        # old_speaker_title = old_speaker_title.lower().strip().replace("-", " ")
         # Then canonicalize
         if old_speaker_title in CANONICAL_SPEAKER_TITLES:
             old_speaker_title = CANONICAL_SPEAKER_TITLES[old_speaker_title]

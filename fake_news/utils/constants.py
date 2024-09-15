@@ -39,7 +39,6 @@ CANONICAL_STATE = {
     "pennsylvania": "pennsylvania",
     "pa - pennsylvania": "pennsylvania",
     "rhode island": "rhode island",
-    "rhode island": "rhode island",
     "ohio": "ohio",
     "ohio": "ohio"
 }
