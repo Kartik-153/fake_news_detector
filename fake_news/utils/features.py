@@ -244,6 +244,20 @@ def normalize_and_clean_state_info(datapoints: List[Dict]) -> List[Dict]:
     return normalized_datapoints
 
 
+# def normalize_and_clean_counts(datapoints: List[Dict]) -> List[Dict]:
+#     normalized_datapoints = []
+#     for idx, datapoint in enumerate(datapoints):
+#         normalized_datapoint = deepcopy(datapoint)
+#         for count_col in ["barely_true_count",
+#                           "false_count",
+#                           "half_true_count",
+#                           "mostly_true_count",
+#                           "pants_fire_count"]:
+#             if count_col in normalized_datapoint:
+#                 normalized_datapoint[count_col] = float(normalized_datapoint[count_col])
+#         normalized_datapoints.append(normalized_datapoint)
+#     return normalized_datapoints
+
 def normalize_and_clean_counts(datapoints: List[Dict]) -> List[Dict]:
     normalized_datapoints = []
     for idx, datapoint in enumerate(datapoints):
@@ -254,7 +268,11 @@ def normalize_and_clean_counts(datapoints: List[Dict]) -> List[Dict]:
                           "mostly_true_count",
                           "pants_fire_count"]:
             if count_col in normalized_datapoint:
-                normalized_datapoint[count_col] = float(normalized_datapoint[count_col])
+                # Check if the value is None and handle it by setting it to 0 or another default value
+                if normalized_datapoint[count_col] is None:
+                    normalized_datapoint[count_col] = 0.0
+                else:
+                    normalized_datapoint[count_col] = float(normalized_datapoint[count_col])
         normalized_datapoints.append(normalized_datapoint)
     return normalized_datapoints
 
