@@ -212,7 +212,7 @@ def normalize_and_clean_speaker_title(datapoints: List[Dict]) -> List[Dict]:
         # First do simple cleaning
         normalized_datapoint = deepcopy(datapoint)
         old_speaker_title = normalized_datapoint["speaker_title"]
-        if old_speaker_title is None:
+        if old_speaker_title is "":
             del normalized_datapoint
             continue
         old_speaker_title = old_speaker_title.lower().strip().replace("-", " ")
