@@ -30,7 +30,6 @@ stages:
     - fake_news/train.py
     outs:
     - model_checkpoints/random_forest
-    
   # train-roberta:
   #   cmd: python fake_news/train.py --config-file config/roberta.json
   #   deps:
