@@ -8,6 +8,7 @@ import numpy as np
 
 from fake_news.utils.features import Datapoint
 
+# Model to follow for any ML project
 
 class Model(ABC):
     @abstractmethod
